@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Risk Rating Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="RiskCalculator.js"></script>
+  <style>
+    select {width: 230%;}
+    .nopadding {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <h1 align="center">Risk Rating Calculator</h1><br>
+
+  <form id="myForm" method="post">
+  <p style="text-align:center; background-color:#30424d; color:white;" class="nopadding">Likelihood</p>
+
+  <!-- Likelihood factors header -->
+  <div class="row">
+    <div class="col-md-6">
+      <p style="text-align:center; background-color:#b45d24; color:white;" data-toggle="tooltip" title="Factors related to Threat Agent. Assess likelihood of successful attack by Threat Agent.">
+        Threat Agent Factors</p>
+    </div>
+    <div class="col-md-6">
+      <p style="text-align:center; background-color:#b45d24; color:white;" data-toggle="tooltip" title="Factors related to vulnerability involved. Assess likelihood of vulnerability being exploited.">
+        Vulnerability Factors</p>
+    </div>
+  </div>
+
+  <!-- Likelihood "table" content -->
+  <div class="row" style="margin-left:8%;">
+    <!-- Threat Agent Factors content -->
+    <div class="col-md-6">
+      <!-- Skill Level contents -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Technical capabilities of Threat Agent">Skill Level</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L1">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">No Technical Capabilities [1]</option>
+            <option value="3">Some Technical Capabilities [3]</option>
+            <option value="5">Advanced Computer User [5]</option>
+            <option value="6">Network and Programming Capabilities [6]</option>
+            <option value="9">Security Penetration Capabilities [9]</option>
+          </select>
+        </div>
+      </div>
+      <!-- Motive options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Motivation of Threat Agent to find and exploit this vulnerability.">Motive</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L2">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Low or No Reward [1]</option>
+            <option value="4">Possible Reward [4]</option>
+            <option value="9">High Reward [9]</option>
+          </select>
+        </div>
+      </div>
+      <!-- Opportunity options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Level of access and resources required for Threat Agent to find and exploit this vulnerability.">
+            Oppotunity</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L3">
+            <option value="0">Full Access or Expensive Resources required [0]</option>
+            <option value="4">Privileged Access or Resources required [4]</option>
+            <option value="7">Some Access or Resources required [7]</option>
+            <option value="9">No Access or Resources required [9]</option>
+          </select>
+        </div>
+      </div>
+      <!-- Size options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Size of Threat Agent.">Size</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L4">
+            <option value="0">Not Applicable [0]</option>
+            <option value="2">Internal [2]</option>
+            <option value="4">Contractors / Vendors / Clients [4]</option>
+            <option value="6">State-Sponsored [6]</option>
+            <option value="9">Anonymous Internet Users [9]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vulnerability Factors content -->
+    <div class="col-md-6">
+      <!-- Ease of Discovery options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Are the &#34;ingredients&#34; of this vulnerability easily discovered?">
+            Ease of Discovery</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L5">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Practically Impossible [1]</option>
+            <option value="3">Difficult [3]</option>
+            <option value="7">Easy [7]</option>
+            <option value="9">Automated Tools available [9]</option>
+          </select>
+        </div>
+      </div>
+      <!-- Ease of Exploit options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Is this vulnerability easy to exploit?">Ease of Exploit</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L6">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Theoretical [1]</option>
+            <option value="3">Difficult [3]</option>
+            <option value="5">Easy [5]</option>
+            <option value="9">Automated Tools available [9]</option>
+          </select>
+        </div>
+      </div>
+      <!-- Awareness options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Is the Threat Agent known to exploit this vulnerability?">Awareness</label>
+        </div>
+        <div class="col-md-3">
+          <select id="L7">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Unknown [1]</option>
+            <option value="4">Hidden [4]</option>
+            <option value="6">Obvious [6]</option>
+            <option value="9">Public Knowledge [9]</option>
+          </select>
+        </div>
+    </div>
+    <!-- Intrusion Detection -->
+    <div class="row">
+      <div class="col-md-3">
+        <label data-toggle="tooltip" data-placement="left" title="Likelihood of exploit being detected.">Intrusion Detection</label>
+      </div>
+      <div class="col-md-3">
+        <select id="L8">
+          <option value="0">Not Applicable [0]</option>
+          <option value="1">Active Detection [1]</option>
+          <option value="3">Logged and Reviewed [3]</option>
+          <option value="8">Logged without Review [8]</option>
+          <option value="9">Not Logged / Unable to Detect [9]</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <br>
+
+  <p style="text-align:center; background-color:#30424d; color:white;" class="nopadding">Impact</p>
+  <!-- Impact "table" contents -->
+  <div class="row">
+    <!-- Impact factors header -->
+    <div class="col-md-6">
+      <p style="text-align:center; background-color:#b45d24; color:white;" data-toggle="tooltip" title="Factors related to technical impact. Assess magnitude of impact on system when vulnerability is exploited.">
+        Technical Impact Factors</p>
+    </div>
+    <div class="col-md-6">
+      <p style="text-align:center; background-color:#b45d24; color:white;" data-toggle="tooltip" title="Factors related to business impact. Assess magnitude of impact on business when vulnerability is exploited.">
+        Business Impact Factors</p>
+    </div>
+  </div>
+
+
+  <div class="row" style="margin-left:8%">
+    <!-- technical impact factors -->
+    <div class="col-md-6">
+      <!-- Loss of Confidentiality options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Extend of data being exposed if vulnerability is exploited.">Loss of Confidentiality</label>
+        </div>
+        <div class="col-md-3" style="vertical-align:top;">
+          <select id="I1">
+            <option value="0">Not Applicable [0]</option>
+            <option value="2">Minimal non-sensitive data disclosed [2]</option>
+            <option value="4">Minimal critical data disclosed / Extensive non-sensitivedata disclosed [4]</option>
+            <option value="5">Extensive critical data disclosed [5]</option>
+            <option value="9">All data disclosed [9]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Loss of Integrity options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Extend of data being corrupted if vulnerability is exploited.">Loss of Integrity</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I2">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Minimal slightly corrupt data [1]</option>
+            <option value="3">Minimal corrupt serious data [3]</option>
+            <option value="5">Extensive slightly corrupt data [5]</option>
+            <option value="7">Extensive corrupt serious data [7]</option>
+            <option value="9">All data totally corrupted [9]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Loss of Availability options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Extend of business services being disrupted if vulnerability is exploited.">Loss of Availability</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I3">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Minimal secondary services interrupted [1]</option>
+            <option value="5">Minimal primary servcices interrupted / Extensive secondary services interrupted [5]</option>
+            <option value="7">Extensive primary services interrupted [7]</option>
+            <option value="9">All services completely lost [9]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Loss of Accountability options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="right" title="Ability to trace back to Threat Agent when vulnerability is exploited.">
+            Loss of Accountability</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I4">
+            <option value="0">Not Applicable [0]</option>
+            <option value="7">Possibly Traceable [7]</option>
+            <option value="9">Completely Anonymous [9]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- business impact factors -->
+    <div class="col-md-6">
+      <!-- Financial Damage options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Extend of financial damage when vulnerability is exploited.">Financial Damage</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I5">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Less than the cost to fix the vulnerability [1]</option>
+            <option value="3">Minor effect on annual profit [3]</option>
+            <option value="7">Significant effect on annual profit [7]</option>
+            <option value="9">Bankruptcy [9]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reputation Damage options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="Extend of reputation damage when vulnerability is exploited.">Reputation Damage</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I6">
+            <option value="0">Not Applicable [0]</option>
+            <option value="1">Minimal damage [1]</option>
+            <option value="4">Loss of Major Accounts [4]</option>
+            <option value="5">Loss of Goodwill [5]</option>
+            <option value="9">Brand Damage [9]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Non-Compliance options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="How much exposure does this non-compliance introduce?">Non-Compliance</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I7">
+            <option value="0">Not Applicable [0]</option>
+            <option value="2">Minor Violation [2]</option>
+            <option value="5">Clear Violation [5]</option>
+            <option value="7">High Profile Violation [7]</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Privacy Violation options -->
+      <div class="row">
+        <div class="col-md-3">
+          <label data-toggle="tooltip" data-placement="left" title="How much personally identifiable information could be disclosed?">Privacy Violation</label>
+        </div>
+        <div class="col-md-3">
+          <select id="I8">
+            <option value="0">Not Applicable [0]</option>
+            <option value="3">One Individual [3]</option>
+            <option value="5">Hundreds of People [5]</option>
+            <option value="7">Thousands of People [7]</option>
+            <option value="9">Millions of People [9]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </form>
+  <br>
+
+  <table cellpadding="10" align="center">
+    <tr>
+      <td>Overall Likelihood: </td>
+      <td><div id="L_score"></div></td>
+      <td><div id="L_rating" style="text-align:center;"></div><td>
+    </tr>
+    <tr>
+      <td>Overall Impact: </td>
+      <td><div id="I_score"></div></td>
+      <td><div id="I_rating"  style="text-align:center;"></div><td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        ---------------------------------------------------
+      </td>
+    </tr>
+    <tr>
+      <td><b>Risk Rating: <b></td>
+      <td><div id="R_score" style="font-weight:bold;"></div></td>
+      <td><div id="R_rating" style="font-weight:bold; text-align:center;"></div></td>
+    </tr>
+  </table>
+</body>
+</html>
